@@ -32,6 +32,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +74,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
     private LocationManager locationManager;
     private Location lastLocation;
     private TextView tvInfo;
+    private CheckBox cbRecordImage;
 
     private List<String> permissions = new ArrayList<>();
     private Gson gson = new Gson();
@@ -104,6 +106,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         tvInfo = findViewById(R.id.tv_info);
+        cbRecordImage = findViewById(R.id.cb_record_image);
 
         // 初始化传感器管理器
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -139,7 +142,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback, 
                 if (image == null) {
                     return;
                 }
-                if (!startRecord) {
+                if (!startRecord || !cbRecordImage.isChecked()) {
                     image.close();
                     return;
                 }
